@@ -75,7 +75,7 @@ app.get("/", async function (req, res) {
 
   var cookie = req.cookies.Username;
   console.log(req.cookies.Username)
-  if (cookie === undefined) { res.redirect('/Auth') }
+  if (cookie === undefined) { res.redirect('/Auth/') }
  
   var markers =  await fetchData()
   console.log(markers)
