@@ -5,7 +5,7 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+var io = require('socket.io')(server);
 
 app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'chat.html'));
@@ -17,6 +17,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(6666, () => {
-  console.log('server running at http://localhost:3000');
+server.listen(2222, () => {
+  console.log('server running at http://localhost:2222');
 });
