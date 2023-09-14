@@ -47,8 +47,8 @@ app.get("/imprint",function(req,res){
 var usersRouter = require("./routes/users");
 var loginRouter = require("./routes/login")
 // set controllers
-app.use("/users",usersRouter);
-app.use("/login",loginRouter);
+app.use("auth/users",usersRouter);
+app.use("auth/login",loginRouter);
 //app.use("/register",loginRouter);
 
 // view engine setup
