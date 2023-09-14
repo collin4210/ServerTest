@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Maps API</title>
+  <style>
+    #map {
+      height: 800px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Tool Trade Map</h1>
+
+  <label>Location:</label>
+  <input type="text" id="search_input" class="controls" placeholder="Suche...">
+ <!-- <button onclick="add(document.getElementById('search_input').value)">Los</button> -->
+
+  <div id="map"></div>
+  <script type="module" src="./script/map.js">
+    import {initMap} from './scrip/map.js'
+   
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASu8ip4bZ73ZS7YIv8xeusk87Zv0OQJg8&libraries=places&callback=initMap">
+          import {initMap} from './scrip/map.js'//API KEY only exposed for project purpose
+    </script>
+
+</body>
+
+</html>

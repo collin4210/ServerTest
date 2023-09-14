@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Maps API</title>
+  <style>
+    #map {
+      height: 800px;
+      width: 100%;
+    }
+    .controls {
+      margin: 0.5vw;
+      height: 3vh;
+      width: 30vw;
+
+    }
+    
+  </style>
+</head>
+
+<body>
+  <h1>Tool Trade Map</h1>
+  <form method="post" action="/tool">
+    <p>
+      <label for="Bezeichnung">Werkzeug anbieten:</label>
+      <input type="text" name="Bezeichnung" id="Bezeichnung" placeholder="Bezeichnung">
+    </p>
+
+    <p>
+      <input type="submit" value="Werkzeug hinzufügen">
+    </p>
+  </form>
+  
+ 
+  <input type="text" id="search_input" class="controls" placeholder="Suche...">
+ <!-- <button onclick="add(document.getElementById('search_input').value)">Los</button> -->
+
+  <div id="map"></div>
+  <script type = "text/javascript">
+function initMap() {
+  geocoder = new google.maps.Geocoder();
+  var gummersbach = new google.maps.LatLng(51.02860, 7.56172)
+
+  // New map
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: gummersbach,
+    zoom: 13,
+    mapTypeId: 'roadmap',
+  });
+
+
+  const input = document.getElementById("search_input");
+  const searchBox = new google.maps.places.SearchBox(input);
+
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+
+  //Position an Map pushen
+  map.addListener("bounds_changed", () => {
+      searchBox.setBounds(map.getBounds());
+
+
+  });
+
+   
+
+   
+
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+
+ 
+    const bounds = new google.maps.LatLngBounds();
+    
+    places.forEach((place) => {
+    
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+
+
+   
+    
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+    map.fitBounds(bounds);
+  });
+
+  
+  
+
+  
+  // Add marker
+
+  
+
+
+  
+
+  // Add Marker function
+  function addMarker(props) {
+    var marker = new google.maps.Marker({
+      position: props.coords,
+      map: map
+    });
+
+    // Check content
+    if (props.content) {
+      var infoWindow = new google.maps.InfoWindow({
+        content: props.content
+      });
+
+      marker.addListener('click', function () {
+        infoWindow.open(map, marker);
+      });
+    }
+  }
+
+  function codeAddress(address, newContent) {
+   
+   geocoder.geocode({ 'address': address }, function (results, status) {
+  
+       var lat = results[0].geometry.location.lat ()
+       var lng = results[0].geometry.location.lng ()
+  
+       if (status == 'OK') {
+         var newPlace = addMarker({
+           coords: {lat , lng },
+           content: '<h3>'+newContent+'</h3>'
+         });
+ 
+    
+         
+       } else {
+           alert('Geocode was not successful for the following reason: ' + status);
+       }
+   });
+ }
+
+ var addresses
+
+ addresses=   <%- JSON.stringify(markers)%>
+  console.log(addresses)
+  console.log(addresses.length)
+
+ addresses.forEach(address => codeAddress(address[1],"Von:<br> <form method=\"GET\" action=\"/Chat\">  <input type=\"submit\" value= "+address[0]+" id=\"Username\">  </form> <br> Werkzeuge: <br>"+address[2]  )) 
+
+  
+
+  service = new google.maps.places.PlacesService(map);
+
+}
+
+
+
+
+   
+  </script>
+   
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASu8ip4bZ73ZS7YIv8xeusk87Zv0OQJg8&libraries=places&callback=initMap">
+        //API KEY only exposed for project purpose
+    </script>
+</html>

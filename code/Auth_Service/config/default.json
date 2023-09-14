@@ -1,0 +1,10 @@
+{
+    "server": {
+        "port": 3000
+    },
+
+    "couchdb": {
+        "user" : "Collin",
+        "password": "5Finger."
+    }
+}
