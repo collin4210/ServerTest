@@ -46,7 +46,7 @@ router.post('/', async function(req, res, next) {
    // res.render('index',{title: "Start Page",name : req.body.username});
    //Redirect zur Map, wenn sie fertig ist 
 
-   res.cookie('Username',req.body.username).redirect('/Map');
+   res.cookie('Username',req.body.username).redirect('/Map/');
 
 
   }
