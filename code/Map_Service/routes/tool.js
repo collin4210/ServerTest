@@ -26,7 +26,7 @@ router.post('/', async function(req, res, next) {
 
   } , axiosConfig) 
 
-    res.redirect('/')
+    res.redirect('/Map/')
     
   });
 
